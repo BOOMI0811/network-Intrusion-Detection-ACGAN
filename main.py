@@ -29,7 +29,28 @@ def build_discriminator():
 
 generator = build_generator()
 discriminator = build_discriminator()
+# --- BLACKLIST FEATURE ---
 
+# This stores all detected attackers
+blacklist = []
+
+def add_to_blacklist(ip, attack_type, confidence):
+    entry = {
+        "ip": ip,
+        "attack_type": attack_type,
+        "confidence": confidence,
+        "blocked": True
+    }
+    blacklist.append(entry)
+    print(f"BLOCKED: {ip} - {attack_type} ({confidence}%)")
+
+# Example - when model detects attack
+add_to_blacklist("192.168.1.105", "DoS Attack", 96.5)
+add_to_blacklist("10.0.0.23", "U2R Attack", 91.5)
+
+print("\nCurrent Blacklist:")
+for item in blacklist:
+    print(item)
 print("ACGAN Model Built")
 print("Before ACGAN: 72.3% Accuracy")
 print("After ACGAN: 91.5% Accuracy")
